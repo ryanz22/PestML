@@ -1,0 +1,44 @@
+version: 1
+disable_existing_loggers: False
+
+formatters:
+    simple:
+        format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        datefmt: '%Y-%m-%d %H:%M:%S'
+    complex:
+        format: '%(asctime)s - %(name)s - %(levelname)s - %(module)s : %(lineno)d - %(message)s'
+        datefmt: '%Y-%m-%d %H:%M:%S'
+
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: complex
+        stream: ext://sys.stdout
+
+    file:
+        class: logging.FileHandler
+        level: INFO
+        formatter: simple
+        filename: myapp.log
+        mode: a
+
+loggers:
+    development:
+        level: DEBUG
+        handlers: [console]
+        propagate: no
+
+    staging:
+        level: INFO
+        handlers: [console, file]
+        propagate: no
+
+    production:
+        level: INFO
+        handlers: [file]
+        propagate: no
+
+root:
+    level: WARNING
+    handlers: [console]
